@@ -150,6 +150,13 @@ class ErrorHandlingTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             loads(b'n;', decode_strings=Spam())
 
+    def test_recursive_array(self):
+        "Verify that a deeply nested object doesn't result in a segfault."
+        with self.assertRaises(RuntimeError):
+            # Note: The actual serialized data is incomplete
+            loads(b"a:1:{" * 100000)
+
+
 class BoolErrorHandling(unittest.TestCase):
     def test_only_opcode(self):
         with self.assertRaises(ValueError):

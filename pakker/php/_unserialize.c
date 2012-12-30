@@ -159,7 +159,11 @@ unserialize_array(char *data, Py_ssize_t length, Py_ssize_t *offset, int decode)
         goto error;
     }
     for (i = 0; i < items; ++i) {
+        if (Py_EnterRecursiveCall(" while decoding an array")) {
+            goto error;
+        }
         item = unserialize(data, length, offset, decode);
+        Py_LeaveRecursiveCall();
         if (item == NULL) {
             goto error;
         } else if (last_item == Py_Ellipsis) {
