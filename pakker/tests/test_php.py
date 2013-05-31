@@ -7,7 +7,7 @@ try:
 except ImportError:
     import unittest
 
-from pakker.php import loads
+from pakker.php import dumps, loads
 
 
 hunt_leaks = hasattr(sys, "gettotalrefcount")
@@ -178,6 +178,7 @@ class BoolErrorHandling(unittest.TestCase):
         with self.assertRaises(ValueError):
             loads(b'b:spam;')
 
+
 class IntErrorHandling(unittest.TestCase):
     def test_only_opcode(self):
         with self.assertRaises(ValueError):
@@ -215,6 +216,7 @@ class FloatErrorHandling(unittest.TestCase):
     def test_number_malformed(self):
         with self.assertRaises(ValueError):
             loads(b'd:spam;')
+
 
 class StringErrorHandling(unittest.TestCase):
     def test_missing_opening_quote(self):
@@ -256,6 +258,7 @@ class StringErrorHandling(unittest.TestCase):
         data = loads(b's:1:"\xc3";', decode_strings=True)
         self.assertEqual(data, u(""))
 
+
 class ArrayErrorHandling(unittest.TestCase):
     def test_missing_closing_paren(self):
         with self.assertRaises(ValueError):
@@ -288,6 +291,59 @@ class ArrayErrorHandling(unittest.TestCase):
     def test_overflow(self):
         with self.assertRaises(OverflowError):
             loads(b'a:' + str(sys.maxsize // 2).encode() + b':{};')
+
+
+class SerializeTests(unittest.TestCase):
+    def test_None(self):
+        self.assertEqual(dumps(None), b'n;')
+
+    def test_bool(self):
+        self.assertEqual(dumps(True), b'b:1;')
+        self.assertEqual(dumps(False), b'b:0;')
+
+    def test_int(self):
+        self.assertEqual(dumps(0), b'i:0;')
+        self.assertEqual(dumps(42), b'i:42;')
+
+    def test_long(self):
+        data = dumps(12345678901234567812345678123456789)
+        self.assertEqual(data, b'i:12345678901234567812345678123456789;')
+
+    def test_float(self):
+        self.assertEqual(dumps(-0.0), b'd:-0.0;')
+        self.assertEqual(dumps(4.2), b'd:4.2;')
+
+    def test_string(self):
+        self.assertEqual(dumps("spam"), b's:4:"spam";')
+
+
+class RoundTripTests(unittest.TestCase):
+    def test_array(self):
+        D = dict(zip([1, None, 0.1], range(3)))
+        self.assertEqual(loads(dumps(D)), D)
+
+    def test_None(self):
+        self.assertIsNone(loads(dumps(None)))
+
+    def test_bool(self):
+        self.assertIs(loads(dumps(True)), True)
+        self.assertIs(loads(dumps(False)), False)
+
+    def test_int(self):
+        self.assertEqual(loads(dumps(0)), 0)
+        self.assertEqual(loads(dumps(-1)), -1)
+        self.assertEqual(loads(dumps(42)), 42)
+        n = 12345678901234567812345678123456789
+        self.assertEqual(loads(dumps(n)), n)
+        self.assertEqual(loads(dumps(-n)), -n)
+
+    def test_bytes(self):
+        self.assertEqual(loads(dumps(b'sp\xc3\xa4m')), b'sp\xc3\xa4m')
+        self.assertEqual(loads(dumps(b'\x00')), b'\x00')
+
+    def test_string(self):
+        self.assertEqual(loads(dumps("spam"), decode_strings=True), "spam")
+        self.assertEqual(loads(dumps("späm"), decode_strings=True), u("sp\xe4m"))
 
 
 def test():
