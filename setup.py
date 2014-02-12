@@ -22,6 +22,6 @@ else:
 setup(
     name="pakker",
     packages=["pakker", "pakker.php", "pakker.tests"],
-    version="0.1",
+    version="0.2",
     ext_modules=[phpunserialize],
     **extra_kwargs)
