@@ -4,8 +4,8 @@ pakker
 
 pakker is a Python library that helps dealing with data that was
 serialized in language-specific serialization formats. In its current
-state, it only supports unserializing data was serialized using PHP's
-``serialize`` function.
+state, it only supports serializing and unserializing of data that was
+serialized using PHP's ``serialize`` function.
 
 
 Supported Python versions
