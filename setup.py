@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 try:
     from setuptools import setup, Extension
     uses_setuptools = True
@@ -21,6 +23,10 @@ else:
 
 setup(
     name="pakker",
+    author="Andreas Stührk",
+    author_email="andy-python@hammerhartes.de",
+    description=("Library for dealing with language-specific serialization "
+                 "formats."),
     packages=["pakker", "pakker.php", "pakker.tests"],
     version="0.2",
     ext_modules=[phpunserialize],
