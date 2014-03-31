@@ -25,9 +25,16 @@ setup(
     name="pakker",
     author="Andreas Stührk",
     author_email="andy-python@hammerhartes.de",
-    description=("Library for dealing with language-specific serialization "
-                 "formats."),
+    description="Library for dealing with language-specific serialization "
+                "formats.",
+    license="BSD",
+    url="http://buffer.io/+pakker/",
     packages=["pakker", "pakker.php", "pakker.tests"],
     version="0.2",
     ext_modules=[phpunserialize],
+    classifiers=[
+        "License :: OSI Approved :: BSD License",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3"
+    ],
     **extra_kwargs)
