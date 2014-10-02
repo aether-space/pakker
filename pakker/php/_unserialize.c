@@ -191,8 +191,9 @@ unserialize_array(char *data, Py_ssize_t length, Py_ssize_t *offset, int decode)
 
 PyObject *
 unserialize(char *data, Py_ssize_t length, Py_ssize_t *offset, int decode) {
+    char type;
     CHECK_EOF;
-    char type = tolower(data[(*offset)++]);
+    type = tolower(data[(*offset)++]);
     if (type == 'n') {
         EXPECT(';');
         Py_RETURN_NONE;
