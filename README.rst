@@ -1,3 +1,7 @@
+.. image:: https://travis-ci.org/bufferio/pakker.svg?branch=master
+   :target: https://travis-ci.org/bufferio/pakker
+
+
 ======
 pakker
 ======
