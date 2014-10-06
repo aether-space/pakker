@@ -1,0 +1,25 @@
+Source: pakker
+Maintainer: Andreas Stührk <andy-python@hammerhartes.de>
+Section: python
+Priority: optional
+Build-Depends: python-singledispatch, python-setuptools, python3-setuptools, python3-singledispatch, dh-python, debhelper (>= 9), python-all-dev, python3-all-dev
+Standards-Version: 3.9.6
+Homepage: https://github.com/bufferio/pakker
+
+Package: python-pakker
+Architecture: any
+Depends: ${misc:Depends}, ${python:Depends}, ${shlibs:Depends}
+Description: Python library for dealing with serialization formats.
+  Pakker is a Python library that helps dealing with data that was
+  serialized in language-specific serialization formats. In its current
+  state, it only implements (part of) PHP's serialize and unserialize
+  functions.
+
+Package: python3-pakker
+Architecture: any
+Depends: ${misc:Depends}, ${python3:Depends}, ${shlibs:Depends}
+Description: Python library for dealing with serialization formats.
+  Pakker is a Python library that helps dealing with data that was
+  serialized in language-specific serialization formats. In its current
+  state, it only implements (part of) PHP's serialize and unserialize
+  functions.

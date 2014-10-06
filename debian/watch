@@ -1,0 +1,3 @@
+version=3
+opts=filenamemangle=s/.+\/v?(\d+.*)\.tar\.gz/pakker-$1\.tar\.gz/ \
+  https://github.com/bufferio/pakker/tags .*/v(\d\S*)\.tar\.gz
